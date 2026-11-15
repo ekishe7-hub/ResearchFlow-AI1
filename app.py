@@ -43,7 +43,8 @@ with tab1:
         else:
             with st.spinner("AI inaandaa na kuchakata karatasi yako ya utafiti... Subiri kidogo."):
                 try:
-                    model = genai.GenerativeModel("gemini-1.5-flash")
+                    # Tumia gemini-pro ambayo ni thabiti zaidi
+                    model = genai.GenerativeModel("gemini-pro")
                     
                     # Soma maelezo ya faili la Excel/CSV kama lipo
                     sheet_data_summary = ""
@@ -52,7 +53,7 @@ with tab1:
                             df = pd.read_csv(sheets_file)
                         else:
                             df = pd.read_excel(sheets_file)
-                        sheet_data_summary = f"Muhtasari wa Data kutoka Google Sheets (Safu na Idadi): {df.shape}. Maelezo ya awali: {df.head(5).to_string()}"
+                        sheet_data_summary = f"Muhtasari wa Data kutoka Google Sheets: {df.shape}. Maelezo ya awali: {df.head(5).to_string()}"
                     
                     # Soma maelezo ya faili la muktasari kama lipo
                     file_content_text = ""
@@ -87,7 +88,7 @@ with tab2:
     st.subheader("🔍 Jenereta ya Search Strings kwa Ajili ya Google Scholar")
     if st.button("Tengeneza Search Strings za Mada Hii"):
         if api_key:
-            model = genai.GenerativeModel("gemini-1.5-flash")
+            model = genai.GenerativeModel("gemini-pro")
             s_prompt = f"Tengeneza boolean search strings 3 za kitaalamu za kutumia kwenye Google Scholar na Scopus kwa ajili ya mada hii: '{research_title}'."
             s_res = model.generate_content(s_prompt)
             st.code(s_res.text, language="text")
