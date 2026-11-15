@@ -14,17 +14,6 @@ api_key = st.secrets.get("GEMINI_API_KEY", os.environ.get("GEMINI_API_KEY", ""))
 if api_key:
     genai.configure(api_key=api_key)
 
-# Kitendakazi cha kupata modeli inayofanya kazi kiotomatiki
-def get_ai_model():
-    try:
-        for m in genai.list_models():
-            if 'generateContent' in m.supported_generation_methods:
-                return genai.GenerativeModel(m.name)
-    except Exception:
-        pass
-    # Fallback ya mwisho
-    return genai.GenerativeModel("gemini-1.5-flash")
-
 # ----------------- SIDEBAR (MIPANGILIO) -----------------
 st.sidebar.header("⚙️ Mipangilio ya Utafiti")
 
@@ -54,6 +43,9 @@ with tab1:
         else:
             with st.spinner("AI inaandaa na kuchakata karatasi yako ya utafiti... Subiri kidogo."):
                 try:
+                    # Tumia gemini-2.5-flash kulingana na pendekezo la API
+                    model = genai.GenerativeModel("gemini-2.5-flash")
+                    
                     # Soma maelezo ya faili la Excel/CSV kama lipo
                     sheet_data_summary = ""
                     if sheets_file is not None:
@@ -82,7 +74,6 @@ with tab1:
                     5. Hitimisho na Mapendekezo (Conclusion & Recommendations)
                     '''
                     
-                    model = get_ai_model()
                     response = model.generate_content(prompt)
                     
                     st.success("🎉 Karatasi imekamilika kuzalishwa kikamilifu!")
@@ -98,7 +89,7 @@ with tab2:
     if st.button("Tengeneza Search Strings za Mada Hii"):
         if api_key:
             try:
-                model = get_ai_model()
+                model = genai.GenerativeModel("gemini-2.5-flash")
                 s_prompt = f"Tengeneza boolean search strings 3 za kitaalamu za kutumia kwenye Google Scholar na Scopus kwa ajili ya mada hii: '{research_title}'."
                 s_res = model.generate_content(s_prompt)
                 st.code(s_res.text, language="text")
