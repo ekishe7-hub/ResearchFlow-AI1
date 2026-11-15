@@ -14,15 +14,10 @@ api_key = st.secrets.get("GEMINI_API_KEY", os.environ.get("GEMINI_API_KEY", ""))
 if api_key:
     genai.configure(api_key=api_key)
 
-# Kitendakazi cha kuchagua modeli inayopatikana kiotomatiki
+# Kitendakazi cha kupata modeli kwa uhakika
 def get_ai_model():
-    try:
-        for m in genai.list_models():
-            if 'generateContent' in m.supported_generation_methods:
-                return genai.GenerativeModel(m.name)
-    except Exception:
-        pass
-    return genai.GenerativeModel("gemini-1.5-flash")
+    # Tunatumia gemini-2.5-flash ambayo ndiyo pendekezo rasmi la API
+    return genai.GenerativeModel("gemini-2.5-flash")
 
 # ----------------- SIDEBAR (MIPANGILIO) -----------------
 st.sidebar.header("⚙️ Mipangilio ya Utafiti")
