@@ -40,6 +40,6 @@ if st.sidebar.button("Tengeneza Karatasi ya Utafiti", type="primary"):
                 st.write(response.text)
                 
             except Exception as e:
-                st.error(fImetokea kosa wakati wa kuwasiliana na AI: {e}")
+                st.error(f"Imetokea kosa wakati wa kuwasiliana na AI: {e}")
 else:
     st.info("👈 Weka kichwa cha utafiti upande wa kushoto kisha bonyeza kitufe cha **Tengeneza Karatasi ya Utafiti** ili kuanza.")
